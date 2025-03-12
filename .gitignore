@@ -1,0 +1,9 @@
+vendor
+sonar*
+.scannerwork
+junit-logfile.xml
+clover.xml
+composer.lock
+composer.phar
+*.cache
+.idea/
