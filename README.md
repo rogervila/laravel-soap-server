@@ -3,7 +3,7 @@
 [![Status](https://github.com/rogervila/laravel-soap-server/workflows/test/badge.svg)](https://github.com/rogervila/laravel-soap-server/actions)
 [![StyleCI](https://github.styleci.io/repos/211657121/shield?branch=main)](https://github.styleci.io/repos/211657121)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rogervila_laravel-soap-server&metric=alert_status)](https://sonarcloud.io/dashboard?id=rogervila_laravel-soap-server)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=rogervila_laravel-soap-server&metric=coverage)](https://sonarcloud.io/dashboard?id=rogervila-laravel-soap-server)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=rogervila_laravel-soap-server&metric=coverage)](https://sonarcloud.io/dashboard?id=rogervila_laravel-soap-server)
 
 [![Latest Stable Version](https://poser.pugx.org/rogervila/laravel-soap-server/v/stable)](https://packagist.org/packages/rogervila/laravel-soap-server)
 [![Total Downloads](https://poser.pugx.org/rogervila/laravel-soap-server/downloads)](https://packagist.org/packages/rogervila/laravel-soap-server)
