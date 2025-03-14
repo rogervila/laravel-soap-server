@@ -34,6 +34,18 @@ final class SoapTest extends TestCase
         $router->any('/soap', fn () => Soap::handle(view: 'wsdl', service: UserService::class));
     }
 
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    #[\Override]
+    public function getEnvironmentSetUp($app)
+    {
+        config()->set('database.default', 'testing');
+    }
+
     public function test_returns_wsdl(): void
     {
         $response = $this->get('/soap?wsdl');
