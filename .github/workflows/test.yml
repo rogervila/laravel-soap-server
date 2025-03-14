@@ -44,5 +44,6 @@ jobs:
         env:
           XDEBUG_MODE: coverage
 
-      - name: Run static analysis
+      - if: matrix.php == '8.4' && matrix.laravel == '12.*'
+        name: Run static analysis
         run: composer static-analysis
