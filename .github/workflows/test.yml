@@ -10,9 +10,17 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        php: ['8.4', '8.3', '8.2', '8.1']
+        php: [8.4, 8.3]
+        laravel: [12.*, 11.*, 10.*]
+        include:
+          - laravel: 12.*
+            testbench: 10.*
+          - laravel: 11.*
+            testbench: 9.*
+          - laravel: 10.*
+            testbench: 8.*
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.os }}
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -22,16 +30,20 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: zip, curl, xdebug
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           coverage: xdebug
 
       - name: Install dependencies
-        run: composer update --prefer-dist --no-interaction
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
+          composer require "orchestra/testbench:${{ matrix.testbench }}" --dev --no-interaction --no-update
+          composer update --prefer-dist --no-interaction
 
       - name: Execute tests
         run: composer test
         env:
           XDEBUG_MODE: coverage
 
-      - name: Run static analysis
+      - if: matrix.php == '8.4' && matrix.laravel == '12.*'
+        name: Run static analysis
         run: composer static-analysis
