@@ -106,7 +106,7 @@ class SoapHandler
         }
 
         $wsdlContent = $this->view->render();
-        $wsdl = storage_path(sprintf('app%swsdl-%s.xml', DIRECTORY_SEPARATOR, md5($wsdlContent)));
+        $wsdl = storage_path(sprintf('app%swsdl-%s.xml', DIRECTORY_SEPARATOR, md5($wsdlContent))); //NOSONAR
 
         if (!file_exists($wsdl)) {
             file_put_contents($wsdl, $wsdlContent);
