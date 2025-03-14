@@ -15,11 +15,12 @@ use Orchestra\Testbench\Attributes\WithConfig;
 #[WithEnv('LOG_CHANNEL', 'null')]
 #[WithEnv('APP_DEBUG', 'true')]
 #[WithConfig('database.default', 'testing')]
-#[WithConfig('view.paths', [__DIR__.'/views'])]
+#[WithConfig('view.paths', [__DIR__ . '/views'])]
 #[WithMigration]
 final class SoapTest extends TestCase
 {
-    use InteractsWithViews, RefreshDatabase;
+    use InteractsWithViews;
+    use RefreshDatabase;
 
     /**
      * Define routes setup.

@@ -18,7 +18,8 @@ class SoapHandler
         private array $options = [],
         private ?Request $request = null,
         private array $viewData = [],
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<string, mixed> $data
@@ -115,7 +116,7 @@ class SoapHandler
             'trace' => true,
             'exceptions' => true,
             'cache_wsdl' => app()->isProduction() ? WSDL_CACHE_MEMORY : WSDL_CACHE_NONE,
-            'send_errors' => ! app()->isProduction(),
+            'send_errors' => !app()->isProduction(),
             'encoding' => 'UTF-8',
         ], $this->options));
 
@@ -131,7 +132,7 @@ class SoapHandler
             return response((string) $soapXml, Response::HTTP_OK, [
                 'Content-Type' => 'application/soap+xml;charset=utf-8',
             ]);
-        }  catch (\SoapFault $fault) {
+        } catch (\SoapFault $fault) {
             ob_end_clean();
             return response($fault->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, [
                 'Content-Type' => 'text/html',
