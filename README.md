@@ -23,6 +23,18 @@ To install the package, use Composer:
 composer require rogervila/laravel-soap-server
 ```
 
+## Requirements
+
+The SOAP server works best with Laravel API routes. Make sure your application has API routes enabled.
+
+If you are using **Laravel 11 or newer**, you must enable the API routes in `bootstrap/app.php`:
+
+```bash
+php artisan install:api
+```
+
+This will create the `routes/api.php` file and configure the application to use it.
+
 ## Usage
 
 ### Defining a Service
@@ -141,7 +153,9 @@ Create a Blade view for the WSDL definition. For example, `resources/views/wsdl.
 
 ### Defining Routes
 
-Define a route to handle the SOAP requests. For example, in `routes/web.php`:
+Define a route to handle the SOAP requests. This **must** be defined in `routes/api.php` or a route group that does not have CSRF protection enabled.
+
+For example, in `routes/api.php`:
 
 ```php
 use App\Services\UserService;
@@ -180,7 +194,7 @@ class SoapTest extends TestCase
     {
         $name = 'John Doe';
         $email = 'john.doe@example.com';
-        $url = url('/user-soap-service');
+        $url = url('/api/user-soap-service');
 
         $payload = <<<XML
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="$url">
