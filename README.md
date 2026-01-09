@@ -38,7 +38,16 @@ class UserService
 {
     public function createUser(stdClass $request): array
     {
-        // Handle the request and return a response
+        return [
+            'status' => '201',
+            'message' => 'User created successfully',
+            'data' => [
+                'id' => 123,
+                'name' => $request->name,
+                'email' => $request->email,
+                'created_at' => now()->toDateTimeString(),
+            ],
+        ];
     }
 }
 ```
@@ -143,14 +152,15 @@ use LaravelSoapServer\Soap;
  * POST http://localhost:8000/user-soap-service Handles the SOAP requests
  */
 Route::any('/user-soap-service', function () {
-    // Option 1
     return Soap::handle(view: 'wsdl', service: UserService::class);
+});
 
-    // Option 2
+// Or using the fluent API
+Route::any('/user-soap-service-fluent', function () {
     return Soap::withView('wsdl')
         ->withService(UserService::class)
-        ->withRequest(request()) // Optional: defaults to current request
-        ->withOptions([]) // Optional: defaults to []
+        // ->withRequest(request()) // Optional: defaults to current request
+        // ->withOptions([]) // Optional: defaults to []
         ->handle();
 });
 ```
@@ -192,8 +202,9 @@ class SoapTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/soap+xml;charset=utf-8');
-
-        // ...
+        $response->assertSee('User created successfully');
+        $response->assertSee($name);
+        $response->assertSee($email);
     }
 }
 ```
