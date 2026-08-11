@@ -23,6 +23,18 @@ To install the package, use Composer:
 composer require rogervila/laravel-soap-server
 ```
 
+## Requirements
+
+The SOAP server works best with Laravel API routes. Make sure your application has API routes enabled.
+
+If you are using **Laravel 11 or newer**, you must enable the API routes in `bootstrap/app.php`:
+
+```bash
+php artisan install:api
+```
+
+This will create the `routes/api.php` file and configure the application to use it.
+
 ## Usage
 
 ### Defining a Service
@@ -38,7 +50,16 @@ class UserService
 {
     public function createUser(stdClass $request): array
     {
-        // Handle the request and return a response
+        return [
+            'status' => '201',
+            'message' => 'User created successfully',
+            'data' => [
+                'id' => 123,
+                'name' => $request->name,
+                'email' => $request->email,
+                'created_at' => now()->toDateTimeString(),
+            ],
+        ];
     }
 }
 ```
@@ -132,7 +153,9 @@ Create a Blade view for the WSDL definition. For example, `resources/views/wsdl.
 
 ### Defining Routes
 
-Define a route to handle the SOAP requests. For example, in `routes/web.php`:
+Define a route to handle the SOAP requests. This **must** be defined in `routes/api.php` or a route group that does not have CSRF protection enabled.
+
+For example, in `routes/api.php`:
 
 ```php
 use App\Services\UserService;
@@ -143,14 +166,15 @@ use LaravelSoapServer\Soap;
  * POST http://localhost:8000/user-soap-service Handles the SOAP requests
  */
 Route::any('/user-soap-service', function () {
-    // Option 1
     return Soap::handle(view: 'wsdl', service: UserService::class);
+});
 
-    // Option 2
+// Or using the fluent API
+Route::any('/user-soap-service-fluent', function () {
     return Soap::withView('wsdl')
         ->withService(UserService::class)
-        ->withRequest(request()) // Optional: defaults to current request
-        ->withOptions([]) // Optional: defaults to []
+        // ->withRequest(request()) // Optional: defaults to current request
+        // ->withOptions([]) // Optional: defaults to []
         ->handle();
 });
 ```
@@ -170,7 +194,7 @@ class SoapTest extends TestCase
     {
         $name = 'John Doe';
         $email = 'john.doe@example.com';
-        $url = url('/user-soap-service');
+        $url = url('/api/user-soap-service');
 
         $payload = <<<XML
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="$url">
@@ -192,8 +216,9 @@ class SoapTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/soap+xml;charset=utf-8');
-
-        // ...
+        $response->assertSee('User created successfully');
+        $response->assertSee($name);
+        $response->assertSee($email);
     }
 }
 ```

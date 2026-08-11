@@ -45,7 +45,7 @@
             "@php ./vendor/bin/psalm --no-cache"
         ],
         "test": [
-            "@php ./vendor/bin/phpunit"
+            "@php -d xdebug.mode=coverage ./vendor/bin/phpunit"
         ]
     }
 }
