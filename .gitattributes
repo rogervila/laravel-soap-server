@@ -4,3 +4,4 @@
 /tests export-ignore
 /.styleci.yml export-ignore
 /phpunit.xml export-ignore
+/.sonarcloud.properties export-ignore
