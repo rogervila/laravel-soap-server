@@ -25,9 +25,9 @@ composer require rogervila/laravel-soap-server
 
 ## Requirements
 
-The SOAP server works best with Laravel API routes. Make sure your application has API routes enabled.
+This package requires **Laravel 12 or 13** and works best with Laravel API routes.
 
-If you are using **Laravel 11 or newer**, you must enable the API routes in `bootstrap/app.php`:
+Make sure your application has API routes enabled. If they are not, enable them in `bootstrap/app.php`:
 
 ```bash
 php artisan install:api
