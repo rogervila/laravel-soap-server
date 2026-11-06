@@ -14,13 +14,13 @@
     ],
     "require": {
         "ext-soap": "*",
-        "laravel/framework": "^10 || ^11 || ^12"
+        "laravel/framework": "^12 || ^13"
     },
     "require-dev": {
         "ext-dom": "*",
-        "orchestra/testbench": "^8 || ^9 || ^10",
+        "orchestra/testbench": "^10 || ^11",
         "phpstan/phpstan": "^2.0",
-        "vimeo/psalm": "^6.0"
+        "vimeo/psalm": "^6.0 || ^7.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -45,7 +45,7 @@
             "@php ./vendor/bin/psalm --no-cache"
         ],
         "test": [
-            "@php ./vendor/bin/phpunit"
+            "@php -d xdebug.mode=coverage ./vendor/bin/phpunit"
         ]
     }
 }

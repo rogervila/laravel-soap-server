@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+@php echo '<?xml version="1.0" encoding="UTF-8"?>'; @endphp
 <definitions name="UserService" targetNamespace="{{ url()->current() }}"
     xmlns:tns="{{ url()->current() }}"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"

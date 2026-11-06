@@ -10,15 +10,16 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        php: ['8.5', '8.4', '8.3']
-        laravel: [12.*, 11.*, 10.*]
+        php: ['8.5', '8.4', '8.3', '8.2']
+        laravel: [13.*, 12.*]
         include:
+          - laravel: 13.*
+            testbench: 11.*
           - laravel: 12.*
             testbench: 10.*
-          - laravel: 11.*
-            testbench: 9.*
-          - laravel: 10.*
-            testbench: 8.*
+        exclude:
+          - laravel: 13.*
+            php: '8.2'
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.os }}
 
@@ -44,6 +45,6 @@ jobs:
         env:
           XDEBUG_MODE: coverage
 
-      - if: matrix.php == '8.4' && matrix.laravel == '12.*'
+      - if: matrix.php == '8.5' && matrix.laravel == '13.*'
         name: Run static analysis
         run: composer static-analysis
