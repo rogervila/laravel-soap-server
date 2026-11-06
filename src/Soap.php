@@ -6,13 +6,14 @@ use Illuminate\Support\Facades\Facade;
 use Override;
 
 /**
+ * @mixin \LaravelSoapServer\SoapHandler
  * @see \LaravelSoapServer\SoapHandler
  *
  * @method static \LaravelSoapServer\SoapHandler withView(\Illuminate\Contracts\View\View|string $view, array<string, mixed> $data = [])
  * @method static \LaravelSoapServer\SoapHandler withRequest(\Illuminate\Http\Request $request)
  * @method static \LaravelSoapServer\SoapHandler withService(string $service)
  * @method static \LaravelSoapServer\SoapHandler withOptions(array<string, mixed> $options)
- * @method static \LaravelSoapServer\SoapHandler handle(\Illuminate\Contracts\View\View|string|null $view = null, ?string $service = null, array<string, mixed> $options = [], ?\Illuminate\Http\Request $request = null, array<string, mixed> $viewData = [])
+ * @method static \Illuminate\Http\Response handle(\Illuminate\Contracts\View\View|string|null $view = null, ?string $service = null, array<string, mixed> $options = [], ?\Illuminate\Http\Request $request = null, array<string, mixed> $viewData = [])
  */
 class Soap extends Facade
 {

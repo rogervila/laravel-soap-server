@@ -122,10 +122,21 @@ class SoapHandler
 
         $server->setClass($this->service);
 
+        $content = $this->request->getContent();
+
+        // \SoapServer::handle() aborts the PHP process on some request errors, so they are reported here instead.
+        $fault = (new SoapRequestValidator($wsdlContent, $this->service))->validate($content);
+
+        if (!is_null($fault)) {
+            return response($fault->toXml(), Response::HTTP_INTERNAL_SERVER_ERROR, [
+                'Content-Type' => 'application/soap+xml;charset=utf-8',
+            ]);
+        }
+
         ob_start();
 
         try {
-            $server->handle($this->request->getContent());
+            $server->handle($content);
 
             $soapXml = ob_get_clean();
 
@@ -134,7 +145,7 @@ class SoapHandler
             ]);
         } catch (\SoapFault $fault) {
             ob_end_clean();
-            return response($fault->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, [
+            return response(htmlspecialchars($fault->getMessage(), ENT_QUOTES, 'UTF-8'), Response::HTTP_INTERNAL_SERVER_ERROR, [
                 'Content-Type' => 'text/html',
             ]);
         } catch (\Throwable $e) {

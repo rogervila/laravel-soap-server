@@ -14,11 +14,11 @@
     ],
     "require": {
         "ext-soap": "*",
-        "laravel/framework": "^10 || ^11 || ^12"
+        "laravel/framework": "^10 || ^11 || ^12 || ^13"
     },
     "require-dev": {
         "ext-dom": "*",
-        "orchestra/testbench": "^8 || ^9 || ^10",
+        "orchestra/testbench": "^8 || ^9 || ^10 || ^11",
         "phpstan/phpstan": "^2.0",
         "vimeo/psalm": "^6.0"
     },

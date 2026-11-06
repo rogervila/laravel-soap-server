@@ -60,4 +60,9 @@ class UserService
             ];
         }
     }
+
+    public function countUsers(string $domain): int
+    {
+        return User::query()->where('email', 'like', '%@' . $domain)->count();
+    }
 }
